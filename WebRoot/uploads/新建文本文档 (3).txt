@@ -1,0 +1,56 @@
+
+	public boolean addOnlineUser(String userName,String chatRoom)
+	{
+		boolean flag=false;
+		try
+		{
+			con =ConnectionFactory.getConnection();
+			
+			//先判断该用户是不是已经在该聊天室
+			String sql="select * from onlineUser where nickName=? and chatRoom=?";
+			ps = con.prepareStatement(sql);
+			ps.setString(1,userName);
+			ps.setString(2,chatRoom);
+			rs =ps.executeQuery();
+			if(rs.next())
+			{
+				flag=true;
+			}
+			else
+			{
+				//如果聊天室不存在该用户，将访用户添加到聊天室的在线用户表中
+				sql="insert into onlineUser(nickName,chatRoom) values(?,?)";
+				ps = con.prepareStatement(sql);
+				ps.setString(1,userName);
+				ps.setString(2,chatRoom);
+				ps.executeUpdate();
+				ps.close();
+              //获取信息时间，并将时间定义为year-Month-day Hour:minutes:seconds
+				SimpleDateFormat cal = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			    String time = cal.format(new java.util.Date());
+			    //在msgInfo表中添加一条系统公告，欢迎新用户进入聊天室
+				sql = "insert into msgInfo(chatRoom,msgFrom,msgTo,chatTime,msgContent)values(?,?,?,?,?)";
+				ps = con.prepareStatement(sql);
+				ps.setString(1,chatRoom);
+				ps.setString(2,"system notice");
+				ps.setString(3,"all people");
+				ps.setString(4,time);
+				ps.setString(5,"<font color=green>"+userName+"</font>enter our chatroom.let us welcome him or her");
+				ps.executeUpdate();
+				flag=true;
+			}
+		}catch(SQLException ex)
+		{
+			ex.printStackTrace();
+		}finally
+		{
+			try {
+				rs.close();
+				ps.close();
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return flag;
+	}
