@@ -12,9 +12,10 @@ pageEncoding="GB2312"
   
 %>
 <link rel="stylesheet" href="chat.css">
-<script language="JavaScript" type="">
+<script type="text/javascript">
 //javascript函数，检查用户发言信息是否为空
 function checkForm() {
+	
 	if (document.chatForm.msg.value == "") {
 		alert("发言不能为空!");
 		document.chatForm.msg.focus();

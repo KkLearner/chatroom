@@ -59,7 +59,12 @@ public class MsgInfo {
 	public String getMsgContent() {
 		return msgContent;
 	}
-	public void setMsgContent(String msgContent) {
+	public void setMsgContent(String msgContent){
+		 
+		if(msgContent.contains("<%")){
+			msgContent =msgContent.replace("<%", "&#60;%");
+		}
+		 
 		this.msgContent = msgContent;
 	}
 	public String getChatAction() {

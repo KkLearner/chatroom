@@ -4,8 +4,8 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 String school=request.getParameter("theSchool");
   String chatroom=request.getParameter("chating");
-   System.out.println(school);
-    System.out.println(chatroom);
+   System.out.println("school="+school);
+    System.out.println("chatroom="+chatroom);
 %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
