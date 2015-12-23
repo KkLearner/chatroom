@@ -59,8 +59,13 @@ String school=request.getParameter("theSchool");
 	         <iframe name = "userlistFrame" src="userList.jsp?theSchool=<%=request.getParameter("theSchool")%>&chating=<%=request.getParameter("chating")%>"  scrolling="no" frameborder="0"></iframe>		
     	</div>
     	<div id="input_block" class="fl">
+    		<%--
     		<iframe src="input.jsp?theSchool=<%=request.getParameter("theSchool")%>&chating=<%=request.getParameter("chating")%>"    name="inputFrame" scrolling="no" frameborder="0"></iframe>
+    		 --%>
+    		<%@include file="input.jsp"  %>
+    	
     	</div>
+    	
     	<div class="clear_both"></div>
     </div>
   </body>

@@ -1,6 +1,6 @@
 
 <%@include file="chkSession.jsp"%>
-<%@ page language="java" import="java.sql.*" pageEncoding="GB2312"%>
+<%@ page language="java" import="java.sql.*" pageEncoding="GBK"%>
 <html>
 <head>
  <script language="javascript">

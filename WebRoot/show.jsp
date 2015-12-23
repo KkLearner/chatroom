@@ -1,5 +1,7 @@
 <html>
-<%@ page language="java" pageEncoding="gbk"%>
+<%@ page language="java" contentType="text/html; charset=GBK" pageEncoding="GBK"
+%>
+<META http-equiv="Content-Type" content="text/html; charset=GBK">
 <head>
 <% String school=request.getParameter("theSchool");
    String chatroom=request.getParameter("chating");

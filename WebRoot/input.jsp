@@ -1,17 +1,19 @@
 <HTML>
 <HEAD>
 <%@include file="chkSession.jsp"%>
-<%@ page language="java" contentType="text/html; charset=GB2312"
-pageEncoding="GB2312"
+<%@ page language="java" contentType="text/html; charset=GBK"
+pageEncoding="GBK"
 %>
-<META http-equiv="Content-Type" content="text/html; charset=GB2312">
+<META http-equiv="Content-Type" content="text/html; charset=GBK">
 <%@ page import="java.util.*"%>
 <% 
-  String school=request.getParameter("theSchool");
-  String chatroom=request.getParameter("chating");
+  //String school=request.getParameter("theSchool");
+  //String chatroom=request.getParameter("chating");
   
 %>
 <link rel="stylesheet" href="chat.css">
+<link rel="stylesheet" href="css/dropdown.css">
+<script src="js/jquery-1.8.2.min.js" type="text/javascript"></script> 			
 <script type="text/javascript">
 //javascript函数，检查用户发言信息是否为空
 function checkForm() {
@@ -33,6 +35,26 @@ function userLogout() {
   
    	
 }
+
+function submitForm(){
+	
+	if(checkForm()){ 
+		 document.getElementById("chatForm").submit();
+		return true;
+	}else{
+		return false;
+	}
+	 
+}
+
+$(function() {  
+    $("#content").keydown(function(event){ 
+      if(event.keyCode == 13){  
+    	  submitForm();
+      }  
+    });  
+});  
+
 //javascript函数，用户切换房间
 function userChangeRoom()
 {
@@ -61,7 +83,7 @@ function openWindow(url) {
 </HEAD>
 <BODY onUnload="userLogout(1)">
 <!-- 用户输入聊天信息的form表单，聊天信息将提交给sendMsg.jsp进行处理-->
-<FORM name="chatForm"  method="post" action="sendMsg.jsp?theSchool=<%=request.getParameter("theSchool")%>&chating=<%=request.getParameter("chating")%>" target="theIframe">
+<FORM name="chatForm" id="chatForm" method="post" action="sendMsg.jsp?theSchool=<%=request.getParameter("theSchool")%>&chating=<%=request.getParameter("chating")%>" target="theIframe">
   <div id="left">
   		<div id="above">
 	        <!-- 选择聊天对象，只读属性，如果不选择聊天对象表示对所有人-->
@@ -122,25 +144,31 @@ function openWindow(url) {
 	      
  		</div>
  		<div id="below">
-	        <input id="content" type="text" name="msg"/>
+	        <input id="content" class="content" type="text" value="" name="msg"/>
 	        <!-- 发送聊天信息按钮-->
-	        <input id="send" type="submit" name="Submit" value=" " onclick="return checkForm();">	
+	        <input id="send" type="buttom"   value=" " onclick="submitForm()">	
         </div>
+           
         <div style="clear:both;"></div>
        </div>
       <div id="right">
       	<div style="margin-left:10px;margin-top:10px;text-align:center;"><img src="images/boy.gif"/></div>
-        <!-- 用户离开聊天室按钮-->
+       <!-- 用户离开聊天室按钮-->
         <div style="text-align:center;"><br/><input type="button" name="logout" value="用户退出" style="font-size:9pt" 
                   onclick="return userLogout();">
 		<!-- 用户换房间按钮-->
 		&nbsp;<input type="button" name="changeRoom" value="回到大厅" style="font-size:9pt" 
                onclick="return userChangeRoom();"></div>	
       </div>
-      <div style="clear:both;"></div>
-  <!-- iframe用于控制用户发送消息页面不闪-->
-<iframe id="theIframe" name="theIframe" width="0" height="0" frameborder="0" style="display:none;"></iframe>
-</FORM>
+       <div style="clear:both;"></div>
+          
+     	 <div style="clear:both;"></div>
+  			<!-- iframe用于控制用户发送消息页面不闪-->
+		<iframe id="theIframe" name="theIframe" width="0" height="0" frameborder="0" style="display:none;"></iframe>
+		</FORM>
+		
+		 
+		<%@include file="ckcInput.jsp"%>
 </BODY>
 </HTML>
 

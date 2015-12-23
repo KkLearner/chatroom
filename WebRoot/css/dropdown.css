@@ -1,0 +1,50 @@
+ 
+
+ol, ul {
+  list-style: none; }
+
+ 
+
+.dropdown {
+  text-align:right;
+  position: relative;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 620px;
+  background-color: #fff;
+  font-family: "Montserrat", sans-serif;
+  padding: 0px;
+  margin:0px;
+  font-size: 18px; }
+  .dropdown li {
+    padding: 0;
+	margin:20px;
+	}
+    .dropdown li a span.selected {
+      background-color: #f2f2f2; }
+    .dropdown li a {
+      display: block;
+      width: 100%;
+      padding: 0;
+	   
+      text-decoration: none;
+      text-transform: uppercase;
+      color: black; }
+  .dropdown li > ul li {
+    padding: 0 ; }
+    .dropdown li > ul li a {
+      color: gray; }
+    .dropdown li > ul li > ul li {
+      padding: 0px; }
+
+
+.dropdown li a span{
+      padding:5px,15px,5px, 15px;
+      margin: 10px; 
+      background:#06c; 
+      text-align:center; 
+      line-height:18px; 
+      color:#fff; 
+}
+      

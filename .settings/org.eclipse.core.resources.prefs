@@ -1,2 +1,5 @@
 eclipse.preferences.version=1
+encoding//src/org/zhzyk_chatRoom/dao/impl/MessageDaoImpl.java=UTF-8
+encoding//src/org/zhzyk_chatRoom/model/Page.java=GBK
+encoding//src/org/zhzyk_chatRoom/util/CookieUtils.java=UTF-8
 encoding/<project>=GBK
