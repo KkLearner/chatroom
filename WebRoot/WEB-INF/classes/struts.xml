@@ -3,24 +3,57 @@
 "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
 "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
-     <constant name="struts.i18n.encoding" value="GBK" /> 
-	<package name="struts2" extends="struts-default">
-		<action name="UserLogin" class="org.zhzyk_chatRoom.action.LoginAction" method="UserLogin">
-		<result name="success">SchoolHall.jsp</result>
-		<result name="input">error.jsp</result>
+    <constant name="struts.i18n.encoding" value="utf-8" /> 
+	<constant name="struts.devMode" value="false"></constant>
+    <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+     
+	<package name="zhzyk_chatRoom" extends="json-default" >	
+	
+	 	<global-results><!-- 定义全局Result -->
+			<result name="redirect" type="redirect">${location}</result>
+			<result name="dispatcher" type="dispatcher">${location}</result>
+			<result name="error">error.jsp</result>
+			<result name="login">login.jsp</result>
+		</global-results>
+
+		<global-exception-mappings><!-- 全局异常处理 -->
+			<exception-mapping result="error" exception="java.lang.NullPointerException" />
+			<exception-mapping result="error" exception="java.lang.NoSuchMethodException" />
+			<exception-mapping result="error" exception="java.lang.Exception" />
+		</global-exception-mappings>
+			
+		<action name="Login-*" class="org.zhzyk_chatRoom.action.LoginAction" method="{1}">
+			<result name="success">SchoolHall.jsp</result>
+			<result name="input">error.jsp</result>
+			<result name="out" type="json">
+				<param name="root">"ok"</param>
+			</result>
+			<result name="check" type="json">
+				<param name="root">flag</param>
+			</result>
 		</action>
 		<action name="Register" class="org.zhzyk_chatRoom.action.RegisterAction" method="Register">
-		<result name="success">SchoolHall.jsp</result>
-		<result name="input">error.jsp</result>
+		<result name="success" type="json">
+			<param name="root">"SchoolHall.jsp"</param>
+		</result>
+		<result name="input" type="json">
+			<param name="root">"error.jsp"</param>
+		</result>
 		</action>
 		
 		
-		<action name="chating" class="org.zhzyk_chatRoom.action.ChatingAction" method="Chatting">
-		<result name="success">chatRoom.jsp</result>
-		<result name="input">login.jsp</result>
+		<action name="chating-*" class="org.zhzyk_chatRoom.action.ChatingAction" method="{1}">
+			<result name="success">chatRoom.jsp</result>
+			<result name="input">login.jsp</result>
+			<result name="sendMsg" type="json">
+				<param name="root">"ok"</param>
+			</result>
+			<result name="ckcCode" type="json">
+				<param name="root">ckcResult</param>
+			</result>
 		</action>
 		
-		 <action name="Upload" class="org.zhzyk_chatRoom.action.UploaderAction" method="upload">  
+		 <action name="upload" class="org.zhzyk_chatRoom.action.UploaderAction" method="upload">  
             <interceptor-ref name="fileUpload">  
                 <param name="maximumSize">20*1024*1024</param>  
             </interceptor-ref>  
@@ -29,8 +62,19 @@
             <result name="input">/fail.jsp</result>                
         </action> 
         
-       
+       <action name="chatRoom-*" class="org.zhzyk_chatRoom.action.ChatRoomAction" method="{1}">
+			<result name="success">chatRoom.jsp</result>
+			<result name="input"></result>
+			<result name="schools" type="json">
+				<param name="root">schoolInfo</param>
+			</result>
+			<result name="chattingData" type="json">
+				<param name="root">data</param>
+			</result>
+			<result name="roommates" type="json">
+				<param name="root">roomMates</param>
+			</result>			
+		</action>
 		
 	</package>
-	<include file="struts-chatRoom.xml" />
 </struts>

@@ -1,159 +1,83 @@
-<%@ page language="java" import="java.util.*" pageEncoding="GBK"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
-
+<%@ page language="java" import="java.util.*" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
+<%@include file="/../common.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
-    
-    <title>×İºáÊÖÀ­ÊÖÁÄÌìÊÒ</title>
-    
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
 	<style type="text/css">
 		body,div,ul,ol,li,p,h1,h2,h3,h4,h5{margin:0px;padding:0px;}
-		body{background-image:url('images/bg.gif');}
+		body{background-image:url('${contextPath}/images/bg.gif');}
 		#reg_table{margin:100px auto 0px auto;border-right:1px solid #a0c6ff;border-bottom:1px solid #a0c6ff;}
 		#reg_table td{border-left:1px solid #a0c6ff;border-top:1px solid #a0c6ff;height:35px;
 			font-size:14px;padding-left:8px;}
 		#reg_table tr:nth-child(odd) {   background: #EDF4FF; }
 	</style>
-	<script type="text/javascript">
-	 function check()
-	 {
-		 if(document.form1.province.value=='')
-		  {
-		   alert("Ê¡·İ²»ÄÜÎª¿Õ!");
-		   document.form1.province.focus();
-		   return false;
-		  }
-		 else if(document.form1.school.value=='')
-		  {
-		   alert("ËùÊôµ¥Î»²»ÄÜÎª¿Õ!");
-		   document.form1.school.focus();
-		   return false;
-		  }
-		 else if(document.form1.nickName.value=='')
-	      {
-	        alert("ÓÃ»§Ãû³Æ²»ÄÜÎª¿Õ!");
-	        document.form1.nickName.focus();
-	        return false;
-	       }else if(document.form1.userPassword.value=='')
-	        {
-	          alert("µÇÂ¼ÃÜÂë²»ÄÜÎª¿Õ");
-	          document.form1.userPassword.focus();
-	          return false;
-	        }else if(document.form1.userPassword.value!=document.form1.repeat_userPassword.value){
-	    	  alert("Á½´ÎÊäÈëµÄÃÜÂë²»Ò»Ñù£¡");
-		      document.form1.userPassword.focus();
-		      return false;
-		      }
-	  else
-	   return true;
-	 }
-       //ajax³ÌĞò¼ì²â ×¢²áµÄÓÃ»§ÊÇ·ñÒÑ¾­´æÔÚ
-		function callServer() {
-			if(typeof String.prototype.trim !== 'function') {
-	            String.prototype.trim = function() {
-	                return this.replace(/^\s+|\s+$/g, ''); 
-	           }
-	        } 
-			var username = document.getElementById("nickName").value;
-			  var url = "checker.jsp?name=" + username.trim();
-			  //var xmlHttp=new XMLHttpRequest();
-			  var xmlHttp = false;
-	 try {
-		 xmlHttp= new ActiveXObject('Msxml2.XMLHTTP');
-	     } catch (e) {
-	         try {
-	        	 xmlHttp= new ActiveXObject('Microsoft.XMLHTTP');
-	         } catch (E) {
-	        	 xmlHttp= null;
-	         }
-	     }
-	     if (!xmlHttp && typeof XMLHttpRequest != 'undefined') {
-	    	 xmlHttp= new XMLHttpRequest();
-	     }
-	    // return xmlhttp_request;
-			  xmlHttp.open("GET", url, true);
-			  xmlHttp.onreadystatechange = function() {
-			  if (xmlHttp.readyState < 4) {
-			 	test1.innerHTML="loading...";
-			  }
-			  if (xmlHttp.readyState == 4) {
-			    var response = xmlHttp.responseText;
-			    test1.innerHTML=response.replace(/^\s+|\s+$/g, '');
-			  }
-			  if (response == "´ËÓÃ»§ÃûÒÑ¾­±»Ê¹ÓÃ£¡"){
-			 	same = true;
-			 	
-			 }else{
-			 	same = false;
-			 	
-			  }
-			}
-			  xmlHttp.send(null); 
-			}
-</script>
+
   </head>
   
   <body>
-  	<form action="Register.action" method="post" name="form1" onSubmit="return check()">
+
+  <form  id="form1" >
     <table id="reg_table" width="600px" border="0" cellspacing="0" cellpadding="0">
     
     	<tr>
-    		<th colspan="2" style="background-color:#a0c6ff;line-height:40px;color:white;font-size:16px;font-family:ºÚÌå;">
-    			×İºáÊÖÀ­ÊÖÁÄÌìÊÒ&nbsp;&nbsp;&nbsp;ĞÂÓÃ»§×¢²á</th>
+    		<th colspan="2" style="background-color:#a0c6ff;line-height:40px;color:white;font-size:16px;font-family:é»‘ä½“;">
+    			çºµæ¨ªæ‰‹æ‹‰æ‰‹èŠå¤©å®¤&nbsp;&nbsp;&nbsp;æ–°ç”¨æˆ·æ³¨å†Œ</th>
     	</tr>
     	<tr>
-    		<td width="25%">ËùÔÚÊ¡ÊĞ</td>
-    		<td><input type="text" name="userInfo.province" id="province"/></td>
+    		<td width="25%">æ‰€åœ¨çœå¸‚</td>
+    		<td><input type="text" name="province" id="province"/></td>
     	</tr>
     	<tr>
-    		<td>ËùÊôÑ§Ğ£»òµ¥Î»</td>
-    		<td><input type="text" name="userInfo.school" id="school"/></td>
+    		<td>æ‰€å±å­¦æ ¡æˆ–å•ä½</td>
+    		<td><input type="text" name="school" id="school"/></td>
     	</tr>
     	<tr>
-    		<td>±¾ÈËÉí·İ</td>
+    		<td>æœ¬äººèº«ä»½</td>
     		<td>
-    		   <select name="userInfo.role" id="role">
-    		   <option  selected ="selected">Ñ§Éú</option>
-    		   <option>ÀÏÊ¦</option>
-    		   <option>×¨¼Ò</option>
+    		   <select name="role" id="role">
+    		   <option  selected ="selected" value="1">å­¦ç”Ÿ</option>
+    		   <option value="2">è€å¸ˆ</option>
+    		   <option value="3">ä¸“å®¶</option>
     		   </select>
     		
     		</td>
     	</tr>
     	<tr>
-    		<td>ÕæÊµĞÕÃû</td>
-    		<td><input type="text" name="userInfo.nickName" id="nickName" onChange="callServer();"/>
-    		 <span id="test1" style="color: red">ÇëÊäÈëÕæÊµĞÕÃû</span></td>
+    		<td>è´¦å·(æ‰‹æœºå·/é‚®ç®±)</td>
+    		<td><input type="text" name="account" id="account" />
+    		<span id="test1" style="color:red;left:260px;"></span></td>
     	</tr>
     	<tr>
-    		<td>ÉèÖÃÃÜÂë</td>
-    		<td><input type="password" name="userInfo.userPassword" id="userPassword"/></td>
+    		<td>çœŸå®å§“å</td>
+    		<td><input type="text" name="nickName" id="nickName"/></td>
+    		
     	</tr>
     	<tr>
-    		<td>È·ÈÏÃÜÂë</td>
-    		<td><input type="password" name="userInfo.repeat_userPassword" id="repeat_userPassword"/>
-    		<span style="font-size:10px;">*ÇëÔÙ´ÎÊäÈëÄúÉèÖÃµÄÃÜÂë</span></td>
+    		<td>æ€§åˆ«</td>
+    		<td>
+    			<input type="radio" name="sex" id="sex" value="ç”·" checked="checked	"/>ç”·
+    			<input type="radio" name="sex" id="sex" value="å¥³"/>å¥³
+    		</td>
+    		
     	</tr>
     	<tr>
-    		<td colspan='2' style="background-color:#a0c6ff;text-align:center;">
-    			<input type="submit" value="Ìá½»"/>&nbsp;&nbsp;&nbsp;&nbsp;
-    			&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="·µ»Ø" onclick="history.go(-1)"/></td>
+    		<td>è®¾ç½®å¯†ç </td>
+    		<td><input type="password" name="userPassword" id="userPassword"/></td>
     	</tr>
-   
+    	<tr>
+    		<td>ç¡®è®¤å¯†ç </td>
+    		<td><input type="password" name="repeat_userPassword" id="repeat_userPassword"/>
+    		<span style="font-size:10px;">*è¯·å†æ¬¡è¾“å…¥æ‚¨è®¾ç½®çš„å¯†ç </span></td>
+    	</tr>
     </table>
     </form>
+    <div style="text-align:center;margin:0:auto;">
+		<input type="button" value="æäº¤" id="submit"/>&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="è¿”å›" onclick="location='${contextPath}/login.jsp'"/>
+		<span id="text1" style="text-align:center;margin:0:auto;color:red"></span>		
+    </div>
+    <script src="${contextPath}/js/register.js" ></script>
   </body>
+  	  
 </html>

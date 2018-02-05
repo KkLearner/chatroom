@@ -1,174 +1,105 @@
+<%@ page language="java" pageEncoding="UTF-8"%>
 <HTML>
 <HEAD>
-<%@include file="chkSession.jsp"%>
-<%@ page language="java" contentType="text/html; charset=GBK"
-pageEncoding="GBK"
-%>
-<META http-equiv="Content-Type" content="text/html; charset=GBK">
-<%@ page import="java.util.*"%>
-<% 
-  //String school=request.getParameter("theSchool");
-  //String chatroom=request.getParameter("chating");
-  
-%>
-<link rel="stylesheet" href="chat.css">
-<link rel="stylesheet" href="css/dropdown.css">
-<script src="js/jquery-1.8.2.min.js" type="text/javascript"></script> 			
-<script type="text/javascript">
-//javascriptº¯Êı£¬¼ì²éÓÃ»§·¢ÑÔĞÅÏ¢ÊÇ·ñÎª¿Õ
-function checkForm() {
-	
-	if (document.chatForm.msg.value == "") {
-		alert("·¢ÑÔ²»ÄÜÎª¿Õ!");
-		document.chatForm.msg.focus();
-		return false;
-	}
-	else {
-		document.chatForm.msg.focus();
-		return true;
-	}
-}
-//javascriptº¯Êı,ÓÃ»§Àë¿ª·¿¼ä
-function userLogout() {
-  
-   top.window.location="login.jsp";
-  
-   	
-}
-
-function submitForm(){
-	
-	if(checkForm()){ 
-		 document.getElementById("chatForm").submit();
-		return true;
-	}else{
-		return false;
-	}
-	 
-}
-
-$(function() {  
-    $("#content").keydown(function(event){ 
-      if(event.keyCode == 13){  
-    	  submitForm();
-      }  
-    });  
-});  
-
-//javascriptº¯Êı£¬ÓÃ»§ÇĞ»»·¿¼ä
-function userChangeRoom()
-{
-  document.body.onunload="";
-  top.window.location="SchoolHall.jsp";
-}
-//´ò¿ªÒ»¸öĞÂ´°¿Ú
-function openWindow(url) {
-	var newWin = window.open(url,"","toolbar=no,status=no,scrollbars=yes,menubar=no,width=450,height=320");
-	return false;
-}
-</script>
-
+<link rel="stylesheet" href="${contextPath}/chat.css">
+<link rel="stylesheet" href="${contextPath}/css/dropdown.css">		
 <style>
 	body,div,ul,ol,li,p,h1,h2,h3,h4,h5,iframe,form,textarea{margin:0px;padding:0px;}
 	#left{float:left;width:619px;height:150px;border:1px solid #74a4cb;}
-	#left #above{height:30px;background-image:url('images/title.gif');background-repeat:repeat-x;line-height:30px;}
+	#left #above{height:30px;background-image:url('${contextPath}/images/title.gif');background-repeat:repeat-x;line-height:30px;}
 	#left #below{height:120px;background-color:white;position:relative;}
 	#left #content{margin-top:24px;margin-left:5px;font-size:14pt;width:480px;height:70px;}
-	#send{width:86px;height:67px;background-image:url('images/send.gif');border:none;display:block;position:absolute;
+	#send{width:86px;height:67px;background-image:url('${contextPath}/images/send.gif');border:none;display:block;position:absolute;
 		right:15px;top:25px;}
-	#send:hover{background-image:url('images/send_hover.gif');cursor:pointer;}
+	#send:hover{background-image:url('${contextPath}/images/send_hover.gif');cursor:pointer;}
 	#right{float:left;width:216px;height:150px;margin-left:18px;border:1px solid #74a4cb;background-color:white;}
 	#right img{width:80px;margin-right:5px;}
 </style>
 </HEAD>
 <BODY onUnload="userLogout(1)">
-<!-- ÓÃ»§ÊäÈëÁÄÌìĞÅÏ¢µÄform±íµ¥£¬ÁÄÌìĞÅÏ¢½«Ìá½»¸øsendMsg.jsp½øĞĞ´¦Àí-->
-<FORM name="chatForm" id="chatForm" method="post" action="sendMsg.jsp?theSchool=<%=request.getParameter("theSchool")%>&chating=<%=request.getParameter("chating")%>" target="theIframe">
-  <div id="left">
+<!-- ç”¨æˆ·è¾“å…¥èŠå¤©ä¿¡æ¯çš„formè¡¨å•ï¼ŒèŠå¤©ä¿¡æ¯å°†æäº¤ç»™sendMsg.jspè¿›è¡Œå¤„ç†-->
+<FORM name="chatForm" id="chatForm">
+  	<div id="left">
   		<div id="above">
-	        <!-- Ñ¡ÔñÁÄÌì¶ÔÏó£¬Ö»¶ÁÊôĞÔ£¬Èç¹û²»Ñ¡ÔñÁÄÌì¶ÔÏó±íÊ¾¶ÔËùÓĞÈË-->
-	        <input type="text" name="msgTo" size="8" style="font-size:9pt" readonly>¶¯×÷<!-- Ñ¡ÔñÁÄÌì±íÇé-->
-	        <select name="action" size="1" style="font-size:9pt">
-	          <option value="no" selected>Ëµ»°</option>
-	          <option value="ÓÑºÃµØÎÕ×ÅBµÄÊÖËµ£º">ÎÊºÃ</option>
-	          <option value="ÏòB»áÒâµØµãµãÍ·,Ëµ£º">µãÍ·</option>
-	          <!-- <option value="¶ÔBåüÃÄµØÌğÌğÒ»Ğ¦£¬Ëµ£º">åüÃÄ</option> -->
-	          <option value="ÍòÊÂ²»İÓÓÚĞÄµØºÇºÇĞ¦×Å¶ÔBËµ£º">¿ªÀÊ</option>
-	          <!-- <option value="Ò»Á³µÄ»µĞ¦£¬²»»³ºÃÒâµØ´òÁ¿×ÅB£¬Ëµ£º">»µĞ¦</option> -->
-	          <!-- <option value="ÈÌ×¡ÀáË®£¬Ç¿¼·³öÒ»Ë¿Ğ¦Èİ¶ÔBËµ£º">¿àĞ¦</option> -->
-	          <!-- <option value="°×ÁËBÒ»ÑÛ£¬Ê®·Ö²»Ğ¼µØËµ£º">°×ÑÛ</option> -->
-	          <!-- <option value="ÇáÇáµØÔÚBµÄ¶îÍ·ÉÏÎÇÁËÒ»ÏÂ£¬ÎÂÈáµØËµ£º">ÇáÎÇ</option> -->
-	          <!-- <option value="ÈÈÁÒµØÓµ±§×ÅB£¬¼¸ºõÍ¸²»¹ıÆøÀ´£¬Ëµ£º">Óµ±§</option> -->
-	          <!-- <option value="º¬ÇéÂöÂöµØÄıÊÓ×ÅBËµ£º">ÉîÇé</option> -->
-	          <!-- <option value="ÀáÖé¶ùÔÚÑÛ¿ôÀï´ò×ª£¬ÎŞÏŞÉËĞÄµØ¶ÔBËµ£º">ÉËĞÄ</option> -->
-	          <!-- <option value="ĞßºìÁËÁ³£¬Å¡¹ıÉí×Ó±³¶Ô×ÅBËµ£º">º¦Ğß</option> -->
-	          <!-- <option value="ÆøµÃÈ«Éí·¢¶¶£¬Á½ÑÛÅç»ğµÉ×ÅB£¬Ëµ£º">·ßÅ­</option> -->
-	          <option value="Î¢Ğ¦×ÅÏòBÕĞÕĞÊÖ£¬Ëµ£º">ÕĞÊÖ</option>
-	          <!-- <option value="à½×Å×ìºßºßßêßêµØ¶ÔBËµ£º">²»Âú</option> -->
-	          <option value="ĞË·ÜµÃ²»µÃÁË£¬¶Ô×ÅBôæôæÆğÎè£¬Ëµ£º">ĞË·Ü</option>
-	          <!-- <option value="Çé²»×Ô½ûµØÂ§×ÅBÈÈÎÇÆğÀ´£¬»¹ß´Á¨¹¾ààµØËµ£º">¿ñÎÇ</option> -->
-	          <option value="Àá¹âÉÁÉÁ¿´×ÅB£¬Á³ÉÏĞ´ÂúÁËÎ¯ÇüµÄËµ£º">Î¯Çü</option>
-	          <!-- <option value="¼±µÃÖ±¶å½Å£¬Æø¼±°Ü»µµØ¶ÔBËµ£º">×Å¼±</option>
-	          <option value="ÀáÈçÈªÓ¿£¬¶Ô×ÅB»©À²»©À²¿ŞÁËÆğÀ´£¬Ëµ£º">º¿ßû</option> -->
-	          <!-- <option value="ÖåÆğÃ¼Í·±ğ×ªÁ³£¬È´ÓÖÍµ¿´BÒ»ÑÛ£¬¹Ê×÷ÉúÆøËµ£º">Èö½¿</option> -->
-	          <!-- <option value="ÃĞÆğ¶·¼¦ÑÛ¿´×ÅBÒ»Õó¼éĞ¦Ëµ£º">¼éĞ¦</option> -->
-	          <!-- <option value="Í»È»Ô¾Æğ·É½ÅÃÍÌßBÆ¨¹É£¬Ëµ£º">·É½Å</option> -->
-	          <!-- <option value="×óÓÒ¿ª¹­³éµÃBÂúµØÕÒÑÀ£¬Ëµ£º">³éŞâ</option> -->
-	          <!-- <option value="³åBÆ¤Ğ¦Èâ²»Ğ¦µØËµ£º">¼ÙĞ¦</option> -->
+	        <!-- é€‰æ‹©èŠå¤©å¯¹è±¡ï¼Œåªè¯»å±æ€§ï¼Œå¦‚æœä¸é€‰æ‹©èŠå¤©å¯¹è±¡è¡¨ç¤ºå¯¹æ‰€æœ‰äºº-->
+	        <input type="text" name="msgTo" size="8" style="font-size:9pt" readonly>åŠ¨ä½œ<!-- é€‰æ‹©èŠå¤©è¡¨æƒ…-->
+	        <select name="chatAction" size="1" style="font-size:9pt">
+	          <option value="no" selected>è¯´è¯</option>
+	          <option value="å‹å¥½åœ°æ¡ç€Bçš„æ‰‹è¯´ï¼š">é—®å¥½</option>
+	          <option value="å‘Bä¼šæ„åœ°ç‚¹ç‚¹å¤´,è¯´ï¼š">ç‚¹å¤´</option>
+	          <!-- <option value="å¯¹Bå¦©åªšåœ°ç”œç”œä¸€ç¬‘ï¼Œè¯´ï¼š">å¦©åªš</option> -->
+	          <option value="ä¸‡äº‹ä¸è¦äºå¿ƒåœ°å‘µå‘µç¬‘ç€å¯¹Bè¯´ï¼š">å¼€æœ—</option>
+	          <!-- <option value="ä¸€è„¸çš„åç¬‘ï¼Œä¸æ€€å¥½æ„åœ°æ‰“é‡ç€Bï¼Œè¯´ï¼š">åç¬‘</option> -->
+	          <!-- <option value="å¿ä½æ³ªæ°´ï¼Œå¼ºæŒ¤å‡ºä¸€ä¸ç¬‘å®¹å¯¹Bè¯´ï¼š">è‹¦ç¬‘</option> -->
+	          <!-- <option value="ç™½äº†Bä¸€çœ¼ï¼Œååˆ†ä¸å±‘åœ°è¯´ï¼š">ç™½çœ¼</option> -->
+	          <!-- <option value="è½»è½»åœ°åœ¨Bçš„é¢å¤´ä¸Šå»äº†ä¸€ä¸‹ï¼Œæ¸©æŸ”åœ°è¯´ï¼š">è½»å»</option> -->
+	          <!-- <option value="çƒ­çƒˆåœ°æ‹¥æŠ±ç€Bï¼Œå‡ ä¹é€ä¸è¿‡æ°”æ¥ï¼Œè¯´ï¼š">æ‹¥æŠ±</option> -->
+	          <!-- <option value="å«æƒ…è„‰è„‰åœ°å‡è§†ç€Bè¯´ï¼š">æ·±æƒ…</option> -->
+	          <!-- <option value="æ³ªç å„¿åœ¨çœ¼çœ¶é‡Œæ‰“è½¬ï¼Œæ— é™ä¼¤å¿ƒåœ°å¯¹Bè¯´ï¼š">ä¼¤å¿ƒ</option> -->
+	          <!-- <option value="ç¾çº¢äº†è„¸ï¼Œæ‹§è¿‡èº«å­èƒŒå¯¹ç€Bè¯´ï¼š">å®³ç¾</option> -->
+	          <!-- <option value="æ°”å¾—å…¨èº«å‘æŠ–ï¼Œä¸¤çœ¼å–·ç«çªç€Bï¼Œè¯´ï¼š">æ„¤æ€’</option> -->
+	          <option value="å¾®ç¬‘ç€å‘Bæ‹›æ‹›æ‰‹ï¼Œè¯´ï¼š">æ‹›æ‰‹</option>
+	          <!-- <option value="å˜Ÿç€å˜´å“¼å“¼å“§å“§åœ°å¯¹Bè¯´ï¼š">ä¸æ»¡</option> -->
+	          <option value="å…´å¥‹å¾—ä¸å¾—äº†ï¼Œå¯¹ç€Bç¿©ç¿©èµ·èˆï¼Œè¯´ï¼š">å…´å¥‹</option>
+	          <!-- <option value="æƒ…ä¸è‡ªç¦åœ°æ‚ç€Bçƒ­å»èµ·æ¥ï¼Œè¿˜å½å“©å’•å™œåœ°è¯´ï¼š">ç‹‚å»</option> -->
+	          <option value="æ³ªå…‰é—ªé—ªçœ‹ç€Bï¼Œè„¸ä¸Šå†™æ»¡äº†å§”å±ˆçš„è¯´ï¼š">å§”å±ˆ</option>
+	          <!-- <option value="æ€¥å¾—ç›´è·ºè„šï¼Œæ°”æ€¥è´¥ååœ°å¯¹Bè¯´ï¼š">ç€æ€¥</option>
+	          <option value="æ³ªå¦‚æ³‰æ¶Œï¼Œå¯¹ç€Bå“—å•¦å“—å•¦å“­äº†èµ·æ¥ï¼Œè¯´ï¼š">åšå••</option> -->
+	          <!-- <option value="çš±èµ·çœ‰å¤´åˆ«è½¬è„¸ï¼Œå´åˆå·çœ‹Bä¸€çœ¼ï¼Œæ•…ä½œç”Ÿæ°”è¯´ï¼š">æ’’å¨‡</option> -->
+	          <!-- <option value="çœ¯èµ·æ–—é¸¡çœ¼çœ‹ç€Bä¸€é˜µå¥¸ç¬‘è¯´ï¼š">å¥¸ç¬‘</option> -->
+	          <!-- <option value="çªç„¶è·ƒèµ·é£è„šçŒ›è¸¢Bå±è‚¡ï¼Œè¯´ï¼š">é£è„š</option> -->
+	          <!-- <option value="å·¦å³å¼€å¼“æŠ½å¾—Bæ»¡åœ°æ‰¾ç‰™ï¼Œè¯´ï¼š">æŠ½æ´</option> -->
+	          <!-- <option value="å†²Bçš®ç¬‘è‚‰ä¸ç¬‘åœ°è¯´ï¼š">å‡ç¬‘</option> -->
 	        </select>
-	        <!-- Ñ¡ÔñÊÇ·ñÇÄÇÄ»°-->
-	      	<input type="checkbox" name="secret" value="yes" >ÇÄÇÄ»°
-	        <!-- Ñ¡ÔñĞÅÏ¢ÏÔÊ¾ÑÕÉ«-->
+	        <!-- é€‰æ‹©æ˜¯å¦æ‚„æ‚„è¯-->
+	      	<input type="checkbox" name="secret" value="yes" >æ‚„æ‚„è¯
+	        <!-- é€‰æ‹©ä¿¡æ¯æ˜¾ç¤ºé¢œè‰²-->
 	        <select name="color" size="1" style="font-size:9pt">
-	          <option style="COLOR: #000000" value="#000000" >ºÚÉ«</option>
-	          <option style="COLOR: #7ec0ee" value="#7ec0ee" >µ­À¶</option>
-	          <option style="COLOR: #0088ff" value="#0088ff" >º£À¶</option>
-	          <option style="COLOR: #0000ff" value="#0000ff" >²İÀ¶</option>
-	          <option style="COLOR: #000088" value="#000088" >ÉîÀ¶</option>
-	          <option style="COLOR: #8800ff" value="#8800ff" >À¶×Ï</option>
-	          <option style="COLOR: #ab82ff" value="#AB82FF" >×ÏÉ«</option>
-	          <option style="COLOR: #ff88ff" value="#ff88ff" >×Ï½ğ</option>
-	          <option style="COLOR: #ff00ff" value="#ff00ff" >ºì×Ï</option>
-	          <option style="COLOR: #ff0088" value="#ff0088" >Ãµºì</option>
-	          <option style="COLOR: #ff0000" value="#ff0000" >´óºì</option>
-	          <option style="COLOR: #f4a460" value="#f4a460" >×ØÉ«</option>
-	          <option style="COLOR: #888800" value="#888800" >¿¨Æä</option>
-	          <option style="COLOR: #888888" value="#888888" >Ìú»Ò</option>
-	          <option style="COLOR: #90e090" value="#90E090" >ÂÌÉ«</option>
-	          <option style="COLOR: #008800" value="#008800" >éÏé­</option>
-	          <option style="COLOR: #008888" value="#008888" >»ÒÀ¶</option>
+	          <option style="COLOR: #000000" value="#000000" >é»‘è‰²</option>
+	          <option style="COLOR: #7ec0ee" value="#7ec0ee" >æ·¡è“</option>
+	          <option style="COLOR: #0088ff" value="#0088ff" >æµ·è“</option>
+	          <option style="COLOR: #0000ff" value="#0000ff" >è‰è“</option>
+	          <option style="COLOR: #000088" value="#000088" >æ·±è“</option>
+	          <option style="COLOR: #8800ff" value="#8800ff" >è“ç´«</option>
+	          <option style="COLOR: #ab82ff" value="#AB82FF" >ç´«è‰²</option>
+	          <option style="COLOR: #ff88ff" value="#ff88ff" >ç´«é‡‘</option>
+	          <option style="COLOR: #ff00ff" value="#ff00ff" >çº¢ç´«</option>
+	          <option style="COLOR: #ff0088" value="#ff0088" >ç«çº¢</option>
+	          <option style="COLOR: #ff0000" value="#ff0000" >å¤§çº¢</option>
+	          <option style="COLOR: #f4a460" value="#f4a460" >æ£•è‰²</option>
+	          <option style="COLOR: #888800" value="#888800" >å¡å…¶</option>
+	          <option style="COLOR: #888888" value="#888888" >é“ç°</option>
+	          <option style="COLOR: #90e090" value="#90E090" >ç»¿è‰²</option>
+	          <option style="COLOR: #008800" value="#008800" >æ©„æ¦„</option>
+	          <option style="COLOR: #008888" value="#008888" >ç°è“</option>
 	        </select>
-	       
-	 ¡¡ 		<br>
-	        
-	      
+   	 ã€€ 		<br>	
+   	 		<input type="hidden" name="theSchool" value="<%=request.getParameter("theSchool")%>">
+   	 		<input type="hidden" name="chating" value="<%=request.getParameter("chating")%>">          	      
  		</div>
  		<div id="below">
-	        <input id="content" class="content" type="text" value="" name="msg"/>
-	        <!-- ·¢ËÍÁÄÌìĞÅÏ¢°´Å¥-->
-	        <input id="send" type="buttom"   value=" " onclick="submitForm()">	
-        </div>
-           
+ 			<textarea rows="3" cols="10" id="content" class="content" name="msg"></textarea>
+	        <!-- å‘é€èŠå¤©ä¿¡æ¯æŒ‰é’®-->
+	        <input id="send" type="button"   value=" " onclick="submitForm()">	
+        </div>           
         <div style="clear:both;"></div>
-       </div>
-      <div id="right">
-      	<div style="margin-left:10px;margin-top:10px;text-align:center;"><img src="images/boy.gif"/></div>
-       <!-- ÓÃ»§Àë¿ªÁÄÌìÊÒ°´Å¥-->
-        <div style="text-align:center;"><br/><input type="button" name="logout" value="ÓÃ»§ÍË³ö" style="font-size:9pt" 
-                  onclick="return userLogout();">
-		<!-- ÓÃ»§»»·¿¼ä°´Å¥-->
-		&nbsp;<input type="button" name="changeRoom" value="»Øµ½´óÌü" style="font-size:9pt" 
-               onclick="return userChangeRoom();"></div>	
-      </div>
-       <div style="clear:both;"></div>
-          
-     	 <div style="clear:both;"></div>
-  			<!-- iframeÓÃÓÚ¿ØÖÆÓÃ»§·¢ËÍÏûÏ¢Ò³Ãæ²»ÉÁ-->
-		<iframe id="theIframe" name="theIframe" width="0" height="0" frameborder="0" style="display:none;"></iframe>
-		</FORM>
-		
-		 
-		<%@include file="ckcInput.jsp"%>
+  	</div>
+ 	 <div id="right">
+  	 	<div style="margin-left:10px;margin-top:10px;text-align:center;"><img src="${contextPath}/images/boy.gif"/></div>
+   		<!-- ç”¨æˆ·ç¦»å¼€èŠå¤©å®¤æŒ‰é’®-->
+    	<div style="text-align:center;"><br/><input type="button" name="logout" value="ç”¨æˆ·é€€å‡º" style="font-size:9pt" 
+               onclick="return userLogout();">
+		<!-- ç”¨æˆ·æ¢æˆ¿é—´æŒ‰é’®-->
+		&nbsp;<input type="button" name="changeRoom" value="å›åˆ°å¤§å…" style="font-size:9pt" 
+            onclick="return userChangeRoom();"></div>	
+ 	</div>
+ 	<div style="clear:both;"></div>      
+  	<div style="clear:both;"></div>
+	<!-- iframeç”¨äºæ§åˆ¶ç”¨æˆ·å‘é€æ¶ˆæ¯é¡µé¢ä¸é—ª-->
+	<iframe id="theIframe" name="theIframe" width="0" height="0" frameborder="0" style="display:none;"></iframe>
+</FORM>
+	<%@include file="ckcInput.jsp"%>
+	<script src="${contextPath}/js/input.js"></script>
 </BODY>
 </HTML>
 

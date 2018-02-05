@@ -1,5 +1,4 @@
 <%@ page language="java" import="java.util.*,org.zhzyk_chatRoom.service.*" pageEncoding="gbk"%>
-<%@include file="chkSession.jsp"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>

@@ -3,10 +3,7 @@
 "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
 "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
-	<package name="chatRoom" extends="struts-default">
-		<action name="ChooseChatRoom" class="org.zhzyk_chatRoom.action.ChatRoomAction" method="ChooseChatRoom">
-		<result name="success">chatRoom.jsp</result>
-		<result name="input"></result>
-		</action>
+	<package name="chatRoom" extends="json-default">
+		
 	</package>
 </struts>

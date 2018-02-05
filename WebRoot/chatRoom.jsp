@@ -1,39 +1,20 @@
-<%@ page language="java" import="java.util.*" pageEncoding="GBK"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-String school=request.getParameter("theSchool");
-  String chatroom=request.getParameter("chating");
-   System.out.println("school="+school);
-    System.out.println("chatroom="+chatroom);
-%>
-
+<%@ page language="java" import="java.util.*" contentType="text/html; charset=utf-8" 
+pageEncoding="utf-8"%>
+<%@ include file="/../common.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
 <html>
-  <head>
-    <base href="<%=basePath%>">
-    
-    <title>×İºáÊÖÀ­ÊÖÁÄÌìÊÒ</title>
-    
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="×İºá,ÁÄÌìÊÒ,ÊäÈë·¨">
-	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-	<script src="js/clock.js" type="text/javascript" ></script>
+  <head>   
+    <title>çºµæ¨ªæ‰‹æ‹‰æ‰‹èŠå¤©å®¤</title>
 	<style>
 		body,div,ul,ol,li,p,h1,h2,h3,h4,h5{margin:0px;padding:0px;}
 		iframe{border:none;}
-		#container{width:1046px; margin:0 auto; background-image:url('images/bg.gif');}
-		#banner{width:844px;height:125px;margin:0px auto;background-image:url('images/banner.gif');}
+		#container{width:1046px; margin:0 auto; background-image:url('${contextPath}/images/bg.gif');}
+		#banner{width:844px;height:125px;margin:0px auto;background-image:url('${contextPath}/images/banner.gif');}
 		#display_chatting{width:619px;height:363px;border:1px solid #74a4cb;margin-left:82px;}
-		#C_head{height:30px;background-image:url('images/title.gif');background-repeat:repeat-x;line-height:30px;}
-		#C_body{height:333px;background-color:white;}
-		#C_body iframe{height:100%;width:100%;}
-		#room_info{width:216px;height:363px;margin-left:18px;border:1px solid #76a5ea;} 
+		#C_head{height:30px;background-image:url('${contextPath}/images/title.gif');background-repeat:repeat-x;line-height:30px;}
+		#C_body{height:333px;background-color:white;overflow-y:scroll}
+		#C_body loadContent{height:100%;width:100%;font-size:14pt;}
+		#room_info{width:216px;height:363px;margin-left:18px;border:1px solid #76a5ea;overflow-y:scroll} 
 		#room_info iframe{width:100%;height:100%;}
 		#input_block{width:857px;height:152px;margin-left:82px;margin-top:10px;}
 		#input_block iframe{width:100%;height:100%;}
@@ -46,27 +27,22 @@ String school=request.getParameter("theSchool");
     	<div id="banner"></div>
     	<div id="display_chatting" class="fl"> 
     		<div id="C_head">
-    			<span id="room_name" style="display:inline-block;width:200px;margin-left:10px;">ÁÄÌìÊÒ</span>
+    			<span id="room_name" style="display:inline-block;width:200px;margin-left:10px;">èŠå¤©å®¤</span>
     			<span id="clock" style="display:inline-block;"></span>
-	    			<script type="text/javascript">
-					    var clock = new Clock();
-					    clock.display(document.getElementById("clock"));
-					</script>
     		</div>	    		
-			<div id="C_body"><iframe src ="show.jsp?theSchool=<%=request.getParameter("theSchool")%>&chating=<%=request.getParameter("chating")%>" name="mainFrame"></iframe></div>
+			<div id="C_body">
+				<span id="loadContent"></span>
+			</div>
     	</div>
     	<div id="room_info" class="fl">
-	         <iframe name = "userlistFrame" src="userList.jsp?theSchool=<%=request.getParameter("theSchool")%>&chating=<%=request.getParameter("chating")%>"  scrolling="no" frameborder="0"></iframe>		
+    		<%@include file="userList.jsp"%>  		
     	</div>
     	<div id="input_block" class="fl">
-    		<%--
-    		<iframe src="input.jsp?theSchool=<%=request.getParameter("theSchool")%>&chating=<%=request.getParameter("chating")%>"    name="inputFrame" scrolling="no" frameborder="0"></iframe>
-    		 --%>
-    		<%@include file="input.jsp"  %>
-    	
-    	</div>
-    	
+    		<%@include file="input.jsp"  %>   	
+    	</div>   	
     	<div class="clear_both"></div>
     </div>
+    <script src="${contextPath}/js/clock.js" type="text/javascript" ></script>
+    <script src="${contextPath}/js/chatRoom.js" type="text/javascript" ></script>
   </body>
 </html>

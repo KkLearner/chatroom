@@ -1,13 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=GBK"
-pageEncoding="GBK"
-%>  
-
-<%
-String school2 = request.getParameter("theSchool") ;
-if(school2!= null && school2.contains("xianggan")){
- 
-%>
- 
+<%@ page language="java" pageEncoding="UTF-8"%>
 <style>
  .ckcInput{
  width: 400px; 
@@ -32,45 +23,34 @@ if(school2!= null && school2.contains("xianggan")){
 <div class="ckcInputDiv" >
 	<p>
 	<select>
-		<option value="F001">--Ñ¡Ôñ--
+		<option value="F001">--é€‰æ‹©--
 		</option>
-		<option selected="selected" value="F001">µÜ×ÓÒ
+		<option selected="selected" value="F001">å¼Ÿå­è¦
 		</option>
 	</select>
 		 &nbsp;
 		 &nbsp;
-		<input id="ftFlag" type="radio" checked="checked" name="jfFlag"/>·±ów
+		<input id="ftFlag" type="radio" checked="checked" name="jfFlag"/>ç¹é«”
 		<!--
 	&nbsp;
-		<input id="jtFlag" type="radio" name="jfFlag"/>¼òÌå	 
+		<input id="jtFlag" type="radio" name="jfFlag"/>ç®€ä½“	 
 		 -->
 	</p>
 	<p>
-	  <input class="ckcInput" value="ÇëÊäÈë×İºáÂë" onfocus="if (value =='ÇëÊäÈë×İºáÂë'){value =''}" onblur="if (value ==''){value='ÇëÊäÈë×İºáÂë'}" id="ckcInput">
+	  <input class="ckcInput" value="è¯·è¾“å…¥çºµæ¨ªç " onfocus="if (value =='è¯·è¾“å…¥çºµæ¨ªç '){value =''}" onblur="if (value ==''){value='è¯·è¾“å…¥çºµæ¨ªç '}" id="ckcInput">
 	  
 	</p>
-	<ul class="on_changes">
-           
-		</ul>			   
-</div>
- 
-<script src="js/jquery-1.8.2.min.js" type="text/javascript"></script>
-<script src="js/ckcInput.js" type="text/javascript"></script>
+	<ul class="on_changes"></ul>			   
+</div> 
+<script src="${contextPath}/js/ckcInput.js" type="text/javascript"></script>
  <script type="text/javascript">
- 
  $(document).ready(function(){
 	 $("#ckcInput").changeTips({
 			divTip:".on_changes",
 			contentInput:".content"
 		}); 
-	getCKCWord(1, 0, 1);
+	getCKCWord(1, 0, 0,1);
 	  
  });
- 
-   
- 
 </script>
 
-<%
-}
-%>

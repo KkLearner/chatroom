@@ -5,27 +5,14 @@ function getCKCWord(value,code, jf, num){//根据纵横码获取扩展字
        jfFlag : jf,
        pageNo : num 
     };
-	$.ajax({
-	type: "POST",
-	url: "ckcQuery.jsp",
-	data: params,
-	dataType:"text", //ajax返回值设置为text（json格式也可用它返回，可打印出结果，也可设置成json）
-	  success: function(json){ 
-		  var result = $.parseJSON(json);  //使用这个方法解析json
-		  
+    ajaxJsonReturn(params,"chating-getCkcCode.action","POST",false,"",function(result){ 
 		  //显示结果
-		  for(var i=0; i< result.length; i++){
-			  
-			  $(value.divTip).append('<li value='+result[i].data+'>'+ result[i].value +'</li>');
-			  
-		  } 
-		   
-	  },
-	  error: function(json){
-	   alert("json=" + json);
-	   return false;
-	  }
-	});       
+		  if(result.length>0){
+			  $.each(result,function(index,map){
+				  $(value.divTip).append('<li value='+map.word+'>'+map.ckcCode+": "+map.word +'</li>');
+			  }) 
+		  }
+	  });    
 }
 
 
@@ -95,22 +82,22 @@ function getCKCWord(value,code, jf, num){//根据纵横码获取扩展字
 				}else{	
 					$(value.divTip).find("li").remove();
 					clearTimeout(timer);
-					timer =setTimeout(function(){getCKCWord(value, tex, 0, 0);},500)
+					timer =setTimeout(function(){getCKCWord(value, tex, 0, 1);},500)
 					$(value.divTip).show();
 				}	
 			}
 			
 			
 			//输入框值发生改变的时候执行函数，这里的事件用判断处理浏览器兼容性;
-			if($.browser.msie){
-				$(this).bind("propertychange",function(){
-					valChange();
-				})
-			}else{
+		//	if($.browser.msie){
+		//		$(this).bind("propertychange",function(){
+		//			valChange();
+		//		})
+		//	}else{
 				$(this).bind("input",function(){
 					valChange();
 				})
-			}
+		//	}
 			
 
 			//鼠标点击和悬停LI
@@ -139,10 +126,8 @@ function getCKCWord(value,code, jf, num){//根据纵横码获取扩展字
 						$(value.contentInput).val($(value.contentInput).val()+liVal); 
 						
 						$(value.divTip).find("li").remove();
-					} 
-					
-					blus();
-					 
+					} 					
+					blus();					 
 					return false;
 				}
 			})				

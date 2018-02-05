@@ -2,7 +2,7 @@ package org.zhzyk_chatRoom.dao;
 
 import org.zhzyk_chatRoom.model.UserInfo;
 
-public interface UserDao{
+public interface UserDao extends BaseDao{
 	public UserInfo findUserByName(String username);
 	public int countUser(String chatRoom);
 	public boolean addOnlineUser(String userName,String chatRoom);

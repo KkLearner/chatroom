@@ -12,25 +12,20 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.struts2.ServletActionContext;
+import org.springframework.stereotype.Controller;
 import org.zhzyk_chatRoom.util.ConnectionFactory;
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionSupport;
 
 @SuppressWarnings("all")
-public class UploaderAction extends ActionSupport {
+public class UploaderAction extends BaseAction {
 	
 	private File attach;
 	private String attachFileName;
-	private HttpServletRequest request;
-	
-	public UploaderAction() {
-		
-		request = ServletActionContext.getRequest();
-	}
-
     
 	public String upload() throws Exception  {
-		
+		if(attach==null)
+			return INPUT;
 		File saved;
 		// System.out.println(System.currentTimeMillis());
 		

@@ -1,33 +1,31 @@
 package org.zhzyk_chatRoom.service;
 
-import org.zhzyk_chatRoom.model.CKC;
-import org.zhzyk_chatRoom.model.Page;
-import org.zhzyk_chatRoom.util.DaoFactory;
-import org.zhzyk_chatRoom.util.Factory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.zhzyk_chatRoom.database.Page;
 
-public class CKCService {
+@Service("CKCService")
+public class CKCService extends BaseService {
 	
 	private static final String ftTable = " td_ckc_ft ";
 	private static final String jtTable = " td_ckc_jt ";
 	
+	public CKCService(){
+		super();
+	}
 	
 	/**
 	 * 
 	 * @param page
 	 * @param ckcCode
-	 * @param jfFlag  jfFlag = flase ·±Ìå£¬  jfFlag = true ¼òÌå
+	 * @param jfFlag  jfFlag = flase ï¿½ï¿½ï¿½å£¬  jfFlag = true ï¿½ï¿½ï¿½ï¿½
 	 * @return
 	 */
-	public Page<CKC> getCKCpage(Page<CKC>page, String ckcCode, boolean isFT){
-		
+	public Page getCKC(String ckcCode, boolean isFT,Integer start,Integer count){		
 		String tableName = jtTable;
-		if(isFT){
+		if(isFT)
 			tableName = ftTable;
-		}
-		
-		page = Factory.getDaoFactory().getCKCDao().getCKC(page, tableName, ckcCode);
-		
-		return page;
+		return ckcDao.getPage("word,ckcCode", tableName, "ckcCode like '"+ckcCode+"%'", "ckcCode asc", null, start, count, null);
 	}
 	
 }
